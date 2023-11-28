@@ -4,7 +4,12 @@
  */
 package view;
 
+import controller.UsuarioDao;
 import model.Endereco;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -18,6 +23,22 @@ public class Cadastro extends javax.swing.JFrame {
 
     public void setId_endereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+    private void carregarEndereco() {
+        UsuarioDao u1 = new UsuarioDao();
+        Endereco obj = new Endereco();
+        try {
+            ResultSet todos = u1.buscarEndereco(endereco.getCEP());
+            while (todos.next()) {
+                obj.addEndereco(todos.getInt("id"), todos.getString("cep"),
+                        todos.getString("cidade"),
+                        todos.getString("bairro"));
+            }
+            this.endereco = obj;
+            todos.close();
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, err.getMessage());
+        }
     }
     /**
      * Creates new form Cadastro
@@ -322,9 +343,19 @@ public class Cadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
-        Reservar res = new Reservar();
-        res.setVisible(true);
-        this.setVisible(false);
+        if(endereco == null){
+            IncluirEndereco end = new IncluirEndereco();
+            end.setVisible(true);
+            this.setVisible(false);
+        }else{ 
+            UsuarioDao user = new UsuarioDao();
+            user.incluirEndereco(endereco); 
+            this.carregarEndereco();
+            Reservar res = new Reservar();
+            res.setVisible(true);
+            this.setVisible(false);
+        }
+        
     }//GEN-LAST:event_btnReservarActionPerformed
     public void checkout(){
         jTextField1.enable(false);

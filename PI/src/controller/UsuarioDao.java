@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement; // Dentro da conexão permite executar comandos SQL
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import model.Endereco;
+import model.Hospedes;
 
 
 public class UsuarioDao extends ConectarDao {
@@ -37,13 +39,13 @@ public class UsuarioDao extends ConectarDao {
         }
     }
     
-    public void incluir(Reserva obj){
+    public void incluirReserva(Reserva obj){
         sql = "INSERT INTO RESERVA VALUES (? , ?, ?, ?, ? ,?)";
         
         try{
             ps = mycon.prepareStatement(sql);
             ps.setInt(1, obj.getId_reserva());
-            ps.setInt(2, obj.getId_hospede().getId());
+            ps.setInt(2, obj.getId_hospede().getCPF());
             ps.setInt(3, obj.getId_quarto().getId_quarto());
             ps.setString(4, obj.getCheck_in());
             ps.setString(5, obj.getCheck_out());
@@ -55,6 +57,55 @@ public class UsuarioDao extends ConectarDao {
             
         }catch(SQLException err){
             JOptionPane.showMessageDialog(null, "Erro ao fazer check-in!" + err.getMessage());
+        }
+    }
+    public void incluirHospede(Hospedes obj){
+        sql = "INSERT INTO HOSPEDES VALUES (? , ?, ?, ?, ? ,?, ?, ?, ?)";
+        
+        try{
+            ps = mycon.prepareStatement(sql);
+            ps.setInt(1, obj.getAvaliacao());
+            ps.setInt(2, obj.getCPF());
+            ps.setString(3, obj.getComentario());
+            ps.setString(4, obj.getNome());
+            ps.setInt(5, obj.getData_de_nasc());
+            ps.setString(6, obj.getSexo().getDescricao());
+            ps.setString(7, obj.getEmail());
+            ps.setString(8, obj.getTelefone());
+            ps.setInt(9, obj.getId_endereco().getId());
+            ps.execute();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Cadastro feito com Sucesso!");
+            
+        }catch(SQLException err){
+            JOptionPane.showMessageDialog(null, "Erro ao fazer Cadastro!" + err.getMessage());
+        }
+    }
+    public ResultSet buscarEndereco(String cep){
+        sql = "SELECT * FROM ENDERECO WHERE CEP = '?'";
+        try{
+            ps = mycon.prepareStatement(sql);
+            ps.setString(1,cep);
+            return ps.executeQuery();
+        }catch(SQLException err){
+            JOptionPane.showMessageDialog(null, "Erro ao buscar Endereco!" + err.getMessage());
+            return null;
+        }
+    }
+    public void incluirEndereco(Endereco obj){
+        sql = "INSERT INTO RESERVA VALUES ( ?, ? ,?)";
+        
+        try{
+            ps = mycon.prepareStatement(sql);
+            ps.setString(1, obj.getCEP());
+            ps.setString(2, obj.getCidade());
+            ps.setString(3, obj.getBairro());
+            ps.execute();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Endereco incluido com Sucesso!");
+            
+        }catch(SQLException err){
+            JOptionPane.showMessageDialog(null, "Erro ao incluir Endereco!" + err.getMessage());
         }
     }
     

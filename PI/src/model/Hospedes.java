@@ -15,11 +15,11 @@ public class Hospedes {
     private String telefone;
     private Endereco id_endereco;
 
-    public int getId() {
+    public int getCPF() {
         return cpf;
     }
 
-    public void setId(int cpf) {
+    public void setCPF(int cpf) {
         this.cpf = cpf;
     }
 

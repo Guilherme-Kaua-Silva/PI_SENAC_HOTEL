@@ -102,7 +102,8 @@ public class ConectarDao {
                 + "avaliacao INT,"
                 + "comentario TEXT,"
                 + "id_quarto INT,"
-                + "FOREIGN KEY (id_quarto) REFERENCES Quarto(id_quarto)) ";
+                + "primary key(id_avaliacao),"
+                + "FOREIGN KEY (id_quarto) REFERENCES Quartos(id_quarto)) ";
             ps = mycon.prepareStatement(sql); // prepara o objeto que irá executar o comando SQL
             ps.execute(); // Executa o comando SQL
 
@@ -111,6 +112,9 @@ public class ConectarDao {
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, "Erro ao criar banco de dados " + err.getMessage());
         }
+    }
+    public void criarQuartos(){
+        
     }
     
     public ConectarDao () { 

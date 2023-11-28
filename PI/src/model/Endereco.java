@@ -45,4 +45,10 @@ public class Endereco {
     public void setBairro(String bairro) {
         this.bairro = bairro;
     }
+    public void addEndereco(int pId, String pCep, String pCidade, String pBairro){
+        this.setId(pId);
+        this.setCEP(pCep);
+        this.setCidade(pCidade);
+        this.setBairro(pBairro);
+    } 
 }
