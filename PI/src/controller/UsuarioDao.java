@@ -52,7 +52,6 @@ public class UsuarioDao extends ConectarDao {
             ps.setString(6, obj.getStatus_pagamento().getDescricao());
             ps.setString(7, obj.getEstado().getDescricao());
             ps.execute();
-            ps.close();
             JOptionPane.showMessageDialog(null, "Reserva feita com Sucesso!");
             
         }catch(SQLException err){
@@ -60,7 +59,7 @@ public class UsuarioDao extends ConectarDao {
         }
     }
     public void incluirHospede(Hospedes obj){
-        sql = "INSERT INTO HOSPEDES VALUES (? , ?, ?, ?, ? ,?, ?, ?, ?)";
+        sql = "INSERT INTO HOSPEDES (avaliacao, cpf, comentario, nome, data_de_nasc, sexo, email, telefone, id_endereco) VALUES (? , ?, ?, ?, ? ,?, ?, ?, ?)";
         
         try{
             ps = mycon.prepareStatement(sql);
@@ -74,7 +73,6 @@ public class UsuarioDao extends ConectarDao {
             ps.setString(8, obj.getTelefone());
             ps.setInt(9, obj.getId_endereco().getId());
             ps.execute();
-            ps.close();
             JOptionPane.showMessageDialog(null, "Cadastro feito com Sucesso!");
             
         }catch(SQLException err){
@@ -82,7 +80,7 @@ public class UsuarioDao extends ConectarDao {
         }
     }
     public ResultSet buscarEndereco(String cep){
-        sql = "SELECT * FROM ENDERECO WHERE CEP = '?'";
+        sql = "SELECT * FROM ENDERECO WHERE CEP in (?)";
         try{
             ps = mycon.prepareStatement(sql);
             ps.setString(1,cep);
@@ -93,17 +91,16 @@ public class UsuarioDao extends ConectarDao {
         }
     }
     public void incluirEndereco(Endereco obj){
-        sql = "INSERT INTO RESERVA VALUES ( ?, ? ,?)";
-        
+        sql = "INSERT INTO ENDERECO (CEP, Cidade, Bairro) VALUES (?,?,?)";
+
         try{
             ps = mycon.prepareStatement(sql);
             ps.setString(1, obj.getCEP());
             ps.setString(2, obj.getCidade());
             ps.setString(3, obj.getBairro());
             ps.execute();
-            ps.close();
             JOptionPane.showMessageDialog(null, "Endereco incluido com Sucesso!");
-            
+
         }catch(SQLException err){
             JOptionPane.showMessageDialog(null, "Erro ao incluir Endereco!" + err.getMessage());
         }

@@ -150,8 +150,6 @@ public class IncluirEndereco extends javax.swing.JFrame {
         end.setCEP(jTextField1.getText());
         end.setCidade(jTextField2.getText());
         end.setBairro(jTextField3.getText());
-        UsuarioDao user = new UsuarioDao();
-        user.incluirEndereco(end);
         Cadastro cad = new Cadastro();
         cad.incluirEndereco(end);
         cad.setVisible(true);
