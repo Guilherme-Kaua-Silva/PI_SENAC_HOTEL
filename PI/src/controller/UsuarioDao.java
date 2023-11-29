@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import model.Endereco;
 import model.Hospedes;
+import model.Quartos;
+import model.Tipo;
 
 
 public class UsuarioDao extends ConectarDao {
@@ -81,6 +83,7 @@ public class UsuarioDao extends ConectarDao {
     }
     public ResultSet buscarEndereco(String cep){
         sql = "SELECT * FROM ENDERECO WHERE CEP in (?)";
+        
         try{
             ps = mycon.prepareStatement(sql);
             ps.setString(1,cep);
@@ -92,7 +95,6 @@ public class UsuarioDao extends ConectarDao {
     }
     public void incluirEndereco(Endereco obj){
         sql = "INSERT INTO ENDERECO (CEP, Cidade, Bairro) VALUES (?,?,?)";
-
         try{
             ps = mycon.prepareStatement(sql);
             ps.setString(1, obj.getCEP());
@@ -106,6 +108,24 @@ public class UsuarioDao extends ConectarDao {
         }
     }
     
+    public void incluirQuarto(Quartos obj){
+        sql = "INSERT INTO Quartos (Banheiro , Disponibilidade,Cozinha, Capacidade, Preco_por_noite) VALUES (?,?,?,?,?)";
+        
+        try{
+            ps = mycon.prepareStatement(sql);
+            ps.setBoolean(1, obj.isBanheiro());
+            ps.setBoolean(2, obj.isDisponibilidade());
+            ps.setBoolean(3, obj.isCozinha());
+            ps.setInt(4, obj.getCapacidade());
+            ps.setDouble(5, obj.getPreco_por_noite());
+            ps.execute();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Quarto incluido com Sucesso!");
+            
+        }catch(SQLException err){
+            JOptionPane.showMessageDialog(null, "Erro ao incluir Quarto!" + err.getMessage());
+        }
+    }
         
 
     
