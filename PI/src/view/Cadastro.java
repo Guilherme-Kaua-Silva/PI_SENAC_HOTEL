@@ -13,71 +13,74 @@ import model.Hospedes;
 import model.Quartos;
 import model.Reserva;
 
-
 /**
  *
  * @author wilson.lsantos
  */
 public class Cadastro extends javax.swing.JFrame {
+
     private Endereco endereco;
     private Quartos quarto;
+
     private void carregarEndereco() {
-    UsuarioDao u1 = new UsuarioDao();
-    Endereco obj = new Endereco();  // Crie o objeto Endereco fora do loop
+        UsuarioDao u1 = new UsuarioDao();
+        Endereco obj = new Endereco();  // Crie o objeto Endereco fora do loop
 
-    ResultSet todos = u1.buscarEndereco(endereco.getCEP());
+        ResultSet todos = u1.buscarEndereco(endereco.getCEP());
 
-    try {
-        while (todos.next()) {
-            String[] dados = {Integer.toString(todos.getInt("id_endereco")), todos.getString("CEP"),    
-                                  todos.getString("cidade"),            
-                                  todos.getString("bairro")};
-                    obj.addEndereco(Integer.parseInt(dados[0]), dados[1], dados[2], dados[3]);
-        }
-    } catch (SQLException err) {
-        JOptionPane.showMessageDialog(null, "Erro ao buscar endereco!" + err.getMessage());
-    } finally {
-        // Feche o ResultSet fora do loop
         try {
-            if (todos != null) {
-                todos.close();
+            while (todos.next()) {
+                String[] dados = {Integer.toString(todos.getInt("id_endereco")), todos.getString("CEP"),
+                    todos.getString("cidade"),
+                    todos.getString("bairro")};
+                obj.addEndereco(Integer.parseInt(dados[0]), dados[1], dados[2], dados[3]);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar endereco!" + err.getMessage());
+        } finally {
+            // Feche o ResultSet fora do loop
+            try {
+                if (todos != null) {
+                    todos.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
+        this.endereco = obj;  // Atribua o objeto Endereco fora do loop
     }
 
-    this.endereco = obj;  // Atribua o objeto Endereco fora do loop
-}
     private void carregarQuarto() {
-    UsuarioDao u1 = new UsuarioDao();
-    Quartos obj = new Quartos();
+        UsuarioDao u1 = new UsuarioDao();
+        Quartos obj = new Quartos();
 
-    ResultSet todos = u1.buscarQuartoPorId(1);
+        ResultSet todos = u1.buscarQuartoPorId(Integer.parseInt(txtIdQuarto.getText()));
 
-    try {
-        while (todos.next()) {
-            String[] dados = {todos.getString("cozinha"), todos.getString("banheiro"),    
-                                  Integer.toString(todos.getInt("id_quarto")),Integer.toString(todos.getInt("capacidade")),            
-                                  Double.toString(todos.getDouble("preco_por_noite")), todos.getString("disponibilidade")};
-                    obj.addQuarto(Boolean.parseBoolean(dados[0]), Boolean.parseBoolean(dados[1]), Integer.parseInt(dados[2]), Integer.parseInt(dados[3]),Double.parseDouble(dados[4]), Boolean.parseBoolean(dados[5]));
-
-        }
-    } catch (SQLException err) {
-        JOptionPane.showMessageDialog(null, "Erro ao buscar quarto!" + err.getMessage());
-    } finally {
-        // Feche o ResultSet fora do loop
         try {
-            if (todos != null) {
-                todos.close();
+            if (todos.next()) {
+                String[] dados = {todos.getString("Cozinha"), todos.getString("Banheiro"),
+                    Integer.toString(todos.getInt("Id_quarto")), Integer.toString(todos.getInt("Capacidade")),
+                    Double.toString(todos.getDouble("Preco_por_noite")), todos.getString("Disponibilidade")};
+                    obj.addQuarto(Boolean.parseBoolean(dados[0]), Boolean.parseBoolean(dados[1]), Integer.parseInt(dados[2]), Integer.parseInt(dados[3]), Double.parseDouble(dados[4]), Boolean.parseBoolean(dados[5]));
+
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar quarto!" + err.getMessage());
+        } finally {
+            // Feche o ResultSet fora do loop
+            try {
+                if (todos != null) {
+                    todos.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
+        this.quarto = obj;  // Atribua o objeto Endereco fora do loop
     }
 
-    this.quarto = obj;  // Atribua o objeto Endereco fora do loop
-}
     /**
      * Creates new form Cadastro
      */
@@ -118,6 +121,8 @@ public class Cadastro extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         btnEndereco = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txtIdQuarto = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
 
@@ -245,6 +250,10 @@ public class Cadastro extends javax.swing.JFrame {
 
         jLabel9.setText(" ");
 
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(58, 69, 129));
+        jLabel11.setText("Quarto");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -255,32 +264,29 @@ public class Cadastro extends javax.swing.JFrame {
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtTell, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDataNascimento))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTell, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(btnEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtEmail)
+                            .addComponent(txtCPF))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(19, 19, 19))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(btnEndereco)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,11 +315,18 @@ public class Cadastro extends javax.swing.JFrame {
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(txtTell, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtTell, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtIdQuarto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -381,13 +394,13 @@ public class Cadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
-        if(endereco == null){
+        if (endereco == null) {
             IncluirEndereco end = new IncluirEndereco();
             end.setVisible(true);
             this.setVisible(false);
-        }else{ 
+        } else {
             UsuarioDao user = new UsuarioDao();
-            user.incluirEndereco(endereco);     
+            user.incluirEndereco(endereco);
             this.carregarEndereco();
             Hospedes hpds = new Hospedes();
             hpds.setNome(txtNome.getText());
@@ -397,26 +410,26 @@ public class Cadastro extends javax.swing.JFrame {
             hpds.setEmail(txtEmail.getText());
             hpds.setId_endereco(endereco);
             hpds.setSexo(jList2.getSelectedValue());
-            
+
             user.incluirHospede(hpds);
-            
+
             Reserva check_in = new Reserva();
             check_in.setId_hospede(hpds);
-            check_in.setId_quarto(quarto);
+            check_in.setId_quarto(Integer.parseInt(txtIdQuarto.getText()));
             check_in.setCheck_in(true);
             check_in.setCheck_out(false);
             check_in.setStatus_pagamento("pago");
             check_in.setEstado("Confirmada");
-          
+
             user.incluirReserva(check_in);
-            
+            user.alterarDisponibilidadeQuarto(Integer.parseInt(txtIdQuarto.getText()), false);
             Reservar res = new Reservar();
             res.setVisible(true);
             this.setVisible(false);
         }
-        
+
     }//GEN-LAST:event_btnReservarActionPerformed
-    public void checkout(){
+    public void checkout() {
         txtNome.enable(false);
         txtCPF.enable(false);
         txtDataNascimento.enable(false);
@@ -424,17 +437,19 @@ public class Cadastro extends javax.swing.JFrame {
         txtTell.enable(false);
         btnEndereco.setVisible(false);
     }
-    public void checkin(){
+
+    public void checkin() {
         txtNome.enable(true);
         txtCPF.enable(true);
         txtDataNascimento.enable(true);
         txtEmail.enable(true);
-        txtTell.enable(true);  
+        txtTell.enable(true);
         btnEndereco.setVisible(true);
     }
-    public void incluirEndereco(Endereco end){
+
+    public void incluirEndereco(Endereco end) {
         this.endereco = end;
-        jLabel9.setText(endereco.getCidade()+", "+endereco.getCidade()+", "+endereco.getCEP());
+        jLabel9.setText(endereco.getBairro() + ", " + endereco.getCidade() + ", " + endereco.getCEP());
     }
     private void txtCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCPFActionPerformed
         // TODO add your handling code here:
@@ -495,6 +510,7 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JButton btnReservar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -514,6 +530,7 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JTextField txtCPF;
     private javax.swing.JTextField txtDataNascimento;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtIdQuarto;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTell;
     // End of variables declaration//GEN-END:variables

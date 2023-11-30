@@ -3,7 +3,7 @@ package model;
 public class Quartos {
     private boolean cozinha;
     private boolean banheiro;
-    private Avaliacao id_avaliacao;
+    private int id_avaliacao;
     private int id_quarto;
     private Tipo tipo;
     private int capacidade;
@@ -26,11 +26,11 @@ public class Quartos {
         this.banheiro = banheiro;
     }
 
-    public Avaliacao getId_avaliacao() {
+    public int getId_avaliacao() {
         return id_avaliacao;
     }
 
-    public void setId_avaliacao(Avaliacao id_avaliacao) {
+    public void setId_avaliacao(int id_avaliacao) {
         this.id_avaliacao = id_avaliacao;
     }
 

@@ -278,14 +278,40 @@ public class Reservar extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void carregarQuartos() {
+    private void carregarQuartosDisponiveis() {
         UsuarioDao u1 = new UsuarioDao();
 
         System.out.println("Carregando quartos...");
 
         try {
-            ResultSet todos = u1.buscarQuartos();
+            ResultSet todos = u1.buscarQuartosDisponiveis();
             DefaultTableModel tab = (DefaultTableModel) this.tableDisponivel.getModel();
+
+            System.out.println("Antes do loop while");
+
+            while (todos.next()) {
+                System.out.println("Dentro do loop while");
+                Object[] linha = {todos.getInt("id_quarto"), todos.getBoolean("Cozinha"),
+                    todos.getDouble("Preco_por_noite"),
+                    todos.getInt("Capacidade")};
+                tab.addRow(linha);
+            }
+
+            todos.close();
+            System.out.println("Quartos carregados com sucesso!");
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar quartos: " + err.getMessage());
+        }
+    }
+    
+    private void carregarQuartosIndisponiveis() {
+        UsuarioDao u1 = new UsuarioDao();
+
+        System.out.println("Carregando quartos...");
+
+        try {
+            ResultSet todos = u1.buscarQuartosIndisponiveis();
+            DefaultTableModel tab = (DefaultTableModel) this.tableReservado.getModel();
 
             System.out.println("Antes do loop while");
 
@@ -330,7 +356,8 @@ public class Reservar extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         System.out.println("Janela aberta. Chamando carregarQuartos...");
         try {
-            this.carregarQuartos();
+            this.carregarQuartosDisponiveis();
+            this.carregarQuartosIndisponiveis();
         } catch (Exception e) {
             e.printStackTrace();
         }    }//GEN-LAST:event_formWindowOpened

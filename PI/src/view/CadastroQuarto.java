@@ -231,6 +231,8 @@ public class CadastroQuarto extends javax.swing.JFrame {
        Quartos q = new Quartos();
        q.setBanheiro(true);
        q.setDisponibilidade(true);
+       q.setId_avaliacao(1);
+       q.setTipo(Tipo.CASAL);
        q.setCapacidade(Integer.parseInt(textCapacidade.getText()));
        q.setCozinha(radioCozinha.isSelected());
        q.setPreco_por_noite(Double.parseDouble(textPrecoPorNoite.getText()));

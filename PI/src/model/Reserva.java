@@ -3,7 +3,7 @@ package model;
 public class Reserva{
     private int id_reserva;
     private Hospedes id_hospede;
-    private Quartos id_quarto;
+    private int id_quarto;
     private boolean check_in;
     private boolean check_out;
     private String status_pagamento;
@@ -20,10 +20,10 @@ public class Reserva{
     public void setId_hospede(Hospedes id_hospede) {
         this.id_hospede = id_hospede;
     }
-    public Quartos getId_quarto() {
+    public int getId_quarto() {
         return id_quarto;
     }
-    public void setId_quarto(Quartos id_quarto) {
+    public void setId_quarto(int id_quarto) {
         this.id_quarto = id_quarto;
     }
     public boolean getCheck_in() {
