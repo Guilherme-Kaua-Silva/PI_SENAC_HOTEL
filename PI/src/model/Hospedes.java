@@ -9,8 +9,8 @@ public class Hospedes {
     private int avaliacao;
     private String comentario;
     private String nome;
-    private int data_de_nasc;
-    private Sexo sexo;
+    private String data_de_nasc;
+    private String sexo;
     private String email;
     private String telefone;
     private Endereco id_endereco;
@@ -47,19 +47,19 @@ public class Hospedes {
         this.nome = nome;
     }
 
-    public int getData_de_nasc() {
+    public String getData_de_nasc() {
         return data_de_nasc;
     }
 
-    public void setData_de_nasc(int data_de_nasc) {
+    public void setData_de_nasc(String data_de_nasc) {
         this.data_de_nasc = data_de_nasc;
     }
 
-    public Sexo getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
-    public void setFoto(Sexo sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 

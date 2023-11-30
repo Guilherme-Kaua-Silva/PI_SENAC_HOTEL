@@ -22,6 +22,14 @@ public class ConectarDao {
             ps = mycon.prepareStatement(sql);
             ps.execute();
             
+            sql = "CREATE TABLE IF NOT EXISTS ENDERECO (id_endereco INT AUTO_INCREMENT,"
+                    + "CEP VARCHAR(8),"
+                    + "cidade VARCHAR(255) NOT NULL,"
+                    + "bairro VARCHAR(255) NOT NULL,"
+                    + "primary key(id_endereco) ) ";
+            ps = mycon.prepareStatement(sql); // prepara o objeto que irá executar o comando SQL
+            ps.execute();
+            
             sql = "CREATE TABLE IF NOT EXISTS HOSPEDES (avaliacao INT,"
                     + "cpf varchar(11) not null ,"
                     + "comentario TEXT,"
@@ -29,7 +37,7 @@ public class ConectarDao {
                     + "data_de_nasc DATE,"
                     + "sexo ENUM('Masculino', 'Feminino', 'Outro'),"
                     + "email varchar(50) not null ,"
-                    + "telefone varchar(15) not null ,"
+                    + "telefone varchar(15),"
                     + "id_endereco  int, "
                     + "primary key (cpf),"
                     + "FOREIGN KEY (id_endereco) REFERENCES Endereco(id_endereco))";
@@ -46,13 +54,7 @@ public class ConectarDao {
             ps = mycon.prepareStatement(sql); // prepara o objeto que irá executar o comando SQL
             ps.execute(); // Executa o comando SQL
 
-            sql = "CREATE TABLE IF NOT EXISTS ENDERECO (id_endereco INT AUTO_INCREMENT,"
-                    + "CEP VARCHAR(8),"
-                    + "cidade VARCHAR(255) NOT NULL,"
-                    + "bairro VARCHAR(255) NOT NULL,"
-                    + "primary key(id_endereco) ) ";
-            ps = mycon.prepareStatement(sql); // prepara o objeto que irá executar o comando SQL
-            ps.execute(); // Executa o comando SQL
+             // Executa o comando SQL
             
             sql = "CREATE TABLE IF NOT EXISTS Quartos (id_quarto INT AUTO_INCREMENT,"
                 + "cozinha BOOLEAN,"
@@ -92,7 +94,7 @@ public class ConectarDao {
                     + "id_servico INT," 
                     + "primary key(id_reserva_servico),"
                     + "FOREIGN KEY (id_reserva) REFERENCES Reserva(id_reserva),"
-                    + "FOREIGN KEY (id_servico) REFERENCES Servico(id_servico)) ";
+                    + "FOREIGN KEY (id_servico) REFERENCES Servicos(id_servico)) ";
             ps = mycon.prepareStatement(sql); // prepara o objeto que irá executar o comando SQL
             ps.execute(); // Executa o comando SQL
 

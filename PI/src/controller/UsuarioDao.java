@@ -69,8 +69,8 @@ public class UsuarioDao extends ConectarDao {
             ps.setInt(2, obj.getCPF());
             ps.setString(3, obj.getComentario());
             ps.setString(4, obj.getNome());
-            ps.setInt(5, obj.getData_de_nasc());
-            ps.setString(6, obj.getSexo().getDescricao());
+            ps.setString(5, obj.getData_de_nasc());
+            ps.setString(6, obj.getSexo());
             ps.setString(7, obj.getEmail());
             ps.setString(8, obj.getTelefone());
             ps.setInt(9, obj.getId_endereco().getId());

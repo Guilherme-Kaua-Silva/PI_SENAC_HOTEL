@@ -26,21 +26,36 @@ public class Cadastro extends javax.swing.JFrame {
         this.endereco = endereco;
     }
     private void carregarEndereco() {
-        UsuarioDao u1 = new UsuarioDao();
-        Endereco obj = new Endereco();
+    UsuarioDao u1 = new UsuarioDao();
+    Endereco obj = new Endereco();  // Crie o objeto Endereco fora do loop
+
+    ResultSet todos = u1.buscarEndereco(endereco.getCEP());
+
+    try {
+        while (todos.next()) {
+            String[] dados = {Integer.toString(todos.getInt("id_endereco")), todos.getString("CEP"),    
+                                  todos.getString("cidade"),            
+                                  todos.getString("bairro")};
+                    obj.addEndereco(Integer.parseInt(dados[0]), dados[1], dados[2], dados[3]);
+
+            // Remova a atribuição this.endereco = obj; de dentro do loop
+
+        }
+    } catch (SQLException err) {
+        JOptionPane.showMessageDialog(null, "Erro ao buscar endereco!" + err.getMessage());
+    } finally {
+        // Feche o ResultSet fora do loop
         try {
-            ResultSet todos = u1.buscarEndereco(endereco.getCEP());
-            while (todos.next()) {
-                obj.addEndereco(todos.getInt("id"), todos.getString("cep"),
-                        todos.getString("cidade"),
-                        todos.getString("bairro"));
+            if (todos != null) {
+                todos.close();
             }
-            this.endereco = obj;
-            todos.close();
-        } catch (SQLException err) {
-            JOptionPane.showMessageDialog(null, err.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+
+    this.endereco = obj;  // Atribua o objeto Endereco fora do loop
+}
     /**
      * Creates new form Cadastro
      */
@@ -350,15 +365,17 @@ public class Cadastro extends javax.swing.JFrame {
             this.setVisible(false);
         }else{ 
             UsuarioDao user = new UsuarioDao();
-            user.incluirEndereco(endereco); 
+            user.incluirEndereco(endereco);     
             this.carregarEndereco();
             Hospedes hpds = new Hospedes();
             hpds.setNome(txtNome.getText());
             hpds.setCPF(Integer.parseInt(txtCPF.getText()));
-            hpds.setData_de_nasc(Integer.parseInt(txtDataNascimento.getText()));
+            hpds.setData_de_nasc(txtDataNascimento.getText());
             hpds.setTelefone(txtTell.getText());
             hpds.setEmail(txtEmail.getText());
             hpds.setId_endereco(endereco);
+            hpds.setSexo(jList2.getSelectedValue());
+            
             user.incluirHospede(hpds);
             Reservar res = new Reservar();
             res.setVisible(true);
