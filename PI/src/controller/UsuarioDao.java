@@ -42,7 +42,7 @@ public class UsuarioDao extends ConectarDao {
         try {
             ps = mycon.prepareStatement(sql);
             ps.setInt(1, obj.getId_reserva());
-            ps.setInt(2, obj.getId_hospede().getCPF());
+            ps.setString(2, obj.getId_hospede().getCPF());
             ps.setInt(3, obj.getId_quarto());
             ps.setBoolean(4, obj.getCheck_in());
             ps.setBoolean(5, obj.getCheck_out());
@@ -62,7 +62,7 @@ public class UsuarioDao extends ConectarDao {
         try {
             ps = mycon.prepareStatement(sql);
             ps.setInt(1, obj.getAvaliacao());
-            ps.setInt(2, obj.getCPF());
+            ps.setString(2, obj.getCPF());
             ps.setString(3, obj.getComentario());
             ps.setString(4, obj.getNome());
             ps.setString(5, obj.getData_de_nasc());
@@ -78,12 +78,36 @@ public class UsuarioDao extends ConectarDao {
         }
     }
 
-    public ResultSet buscarEndereco(String cep) {
+    public ResultSet buscarEnderecoPorCep(String cep) {
         sql = "SELECT * FROM ENDERECO WHERE CEP in (?)";
 
         try {
             ps = mycon.prepareStatement(sql);
             ps.setString(1, cep);
+            return ps.executeQuery();
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar Endereco!" + err.getMessage());
+            return null;
+        }
+    }
+    public ResultSet buscarEnderecoPorId(int id) {
+        sql = "SELECT * FROM ENDERECO WHERE id_endereco in (?)";
+
+        try {
+            ps = mycon.prepareStatement(sql);
+            ps.setInt(1, id);
+            return ps.executeQuery();
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar Endereco!" + err.getMessage());
+            return null;
+        }
+    }
+    public ResultSet buscarHospede(int cpf) {
+        sql = "SELECT * FROM ENDERECO WHERE CEP in (?)";
+
+        try {
+            ps = mycon.prepareStatement(sql);
+            ps.setInt(1, cpf);
             return ps.executeQuery();
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, "Erro ao buscar Endereco!" + err.getMessage());

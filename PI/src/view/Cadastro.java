@@ -21,13 +21,18 @@ public class Cadastro extends javax.swing.JFrame {
 
     private Endereco endereco;
     private Quartos quarto;
+    private Hospedes hospede;
 
-    private void carregarEndereco() {
+    private void carregarEndereco(boolean i) {
         UsuarioDao u1 = new UsuarioDao();
-        Endereco obj = new Endereco();  // Crie o objeto Endereco fora do loop
-
-        ResultSet todos = u1.buscarEndereco(endereco.getCEP());
-
+        Endereco obj = new Endereco();
+        ResultSet todos;
+        if(i == true){
+            todos = u1.buscarEnderecoPorCep(endereco.getCEP());
+        }
+        else{
+            todos = u1.buscarEnderecoPorId(endereco.getId());
+        }
         try {
             while (todos.next()) {
                 String[] dados = {Integer.toString(todos.getInt("id_endereco")), todos.getString("CEP"),
@@ -50,7 +55,36 @@ public class Cadastro extends javax.swing.JFrame {
 
         this.endereco = obj;  // Atribua o objeto Endereco fora do loop
     }
+    private void carregarHospede() {
+        UsuarioDao u1 = new UsuarioDao();
+        Hospedes obj = new Hospedes();
 
+        ResultSet todos = u1.buscarHospede(Integer.parseInt(txtCPF.getText()));
+
+        try {
+            if (todos.next()) {
+                String[] dados = {todos.getString("cpf"), todos.getString("nome"),
+                    todos.getString("sexo"), todos.getString("email"),
+                    todos.getString("telefone"), Integer.toString(todos.getInt("id_endereco"))};
+                    this.endereco.setId(Integer.parseInt(dados[5]));
+                    this.carregarEndereco(false);
+                    obj.addHospede(dados[0], dados[1], dados[2], dados[3], dados[4], endereco);
+            }
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar quarto!" + err.getMessage());
+        } finally {
+            // Feche o ResultSet fora do loop
+            try {
+                if (todos != null) {
+                    todos.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        this.hospede = obj;  // Atribua o objeto Endereco fora do loop
+    }
     private void carregarQuarto() {
         UsuarioDao u1 = new UsuarioDao();
         Quartos obj = new Quartos();
@@ -401,10 +435,10 @@ public class Cadastro extends javax.swing.JFrame {
         } else {
             UsuarioDao user = new UsuarioDao();
             user.incluirEndereco(endereco);
-            this.carregarEndereco();
+            this.carregarEndereco(true);
             Hospedes hpds = new Hospedes();
             hpds.setNome(txtNome.getText());
-            hpds.setCPF(Integer.parseInt(txtCPF.getText()));
+            hpds.setCPF(txtCPF.getText());
             hpds.setData_de_nasc(txtDataNascimento.getText());
             hpds.setTelefone(txtTell.getText());
             hpds.setEmail(txtEmail.getText());
@@ -436,6 +470,7 @@ public class Cadastro extends javax.swing.JFrame {
         txtEmail.enable(false);
         txtTell.enable(false);
         btnEndereco.setVisible(false);
+        btnReservar.setVisible(false);
     }
 
     public void checkin() {
@@ -445,6 +480,7 @@ public class Cadastro extends javax.swing.JFrame {
         txtEmail.enable(true);
         txtTell.enable(true);
         btnEndereco.setVisible(true);
+        btnReservar.setVisible(true);
     }
 
     public void incluirEndereco(Endereco end) {
@@ -466,7 +502,7 @@ public class Cadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnderecoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**

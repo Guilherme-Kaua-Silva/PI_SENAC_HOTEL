@@ -5,7 +5,7 @@
 package model;
 
 public class Hospedes {
-    private int cpf;
+    private String cpf;
     private int avaliacao;
     private String comentario;
     private String nome;
@@ -15,11 +15,11 @@ public class Hospedes {
     private String telefone;
     private Endereco id_endereco;
 
-    public int getCPF() {
+    public String getCPF() {
         return cpf;
     }
 
-    public void setCPF(int cpf) {
+    public void setCPF(String cpf) {
         this.cpf = cpf;
     }
 
@@ -86,4 +86,12 @@ public class Hospedes {
     public void setId_endereco(Endereco id_endereco) {
         this.id_endereco = id_endereco;
     }
+    public void addHospede(String pCpf, String pNome,String pSexo,String pEmail,String pTelefone,Endereco pId_endereco){
+        this.setCPF(pCpf);
+        this.setNome(pNome);
+        this.setSexo(pSexo);
+        this.setEmail(pEmail);
+        this.setTelefone(pTelefone);
+        this.setId_endereco(pId_endereco);
+    } 
 }
