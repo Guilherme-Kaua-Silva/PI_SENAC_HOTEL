@@ -1,15 +1,17 @@
 package controller;
 
+import view.Reservar;
 import java.sql.Connection;
-import model.Reserva;
-
 import java.sql.SQLException;
 import java.sql.PreparedStatement; // Dentro da conexão permite executar comandos SQL
-import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import model.Endereco;
 import model.Hospedes;
 import model.Quartos;
+import model.Reserva;
 import model.Tipo;
 
 
@@ -127,6 +129,32 @@ public class UsuarioDao extends ConectarDao {
         }
     }
         
+    public ResultSet buscarQuartos(){
+        sql = "Select * from Quartos ORDER BY id_quarto";
+        
+        try{
+            ps = mycon.prepareStatement(sql);
+            return ps.executeQuery();
+        }
+        catch (SQLException err){
+            JOptionPane.showMessageDialog(null, "Erro ao buscar Quarto!" + err.getMessage());
+            return null;
+        }
+            
+    }
+    
+    public ResultSet buscarQuartosDisponiveis() {
+    sql = "SELECT * FROM Quartos WHERE Disponibilidade = false ORDER BY id_quarto";
 
+    try {
+        ps = mycon.prepareStatement(sql);
+        return ps.executeQuery();
+    } catch (SQLException err) {
+        JOptionPane.showMessageDialog(null, "Erro ao buscar quartos disponíveis: " + err.getMessage());
+        return null;
+    }
+}
+    
+    
     
 }
