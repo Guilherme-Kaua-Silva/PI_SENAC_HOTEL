@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import model.Hospedes;
+import model.Quartos;
+import model.Reserva;
 
 
 /**
@@ -18,13 +20,7 @@ import model.Hospedes;
  */
 public class Cadastro extends javax.swing.JFrame {
     private Endereco endereco;
-        public Endereco getId_endereco() {
-        return endereco;
-    }
-
-    public void setId_endereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
+    private Quartos quarto;
     private void carregarEndereco() {
     UsuarioDao u1 = new UsuarioDao();
     Endereco obj = new Endereco();  // Crie o objeto Endereco fora do loop
@@ -37,9 +33,6 @@ public class Cadastro extends javax.swing.JFrame {
                                   todos.getString("cidade"),            
                                   todos.getString("bairro")};
                     obj.addEndereco(Integer.parseInt(dados[0]), dados[1], dados[2], dados[3]);
-
-            // Remova a atribuição this.endereco = obj; de dentro do loop
-
         }
     } catch (SQLException err) {
         JOptionPane.showMessageDialog(null, "Erro ao buscar endereco!" + err.getMessage());
@@ -55,6 +48,35 @@ public class Cadastro extends javax.swing.JFrame {
     }
 
     this.endereco = obj;  // Atribua o objeto Endereco fora do loop
+}
+    private void carregarQuarto() {
+    UsuarioDao u1 = new UsuarioDao();
+    Quartos obj = new Quartos();
+
+    ResultSet todos = u1.buscarQuartoPorId(1);
+
+    try {
+        while (todos.next()) {
+            String[] dados = {todos.getString("cozinha"), todos.getString("banheiro"),    
+                                  Integer.toString(todos.getInt("id_quarto")),Integer.toString(todos.getInt("capacidade")),            
+                                  Double.toString(todos.getDouble("preco_por_noite")), todos.getString("disponibilidade")};
+                    obj.addQuarto(Boolean.parseBoolean(dados[0]), Boolean.parseBoolean(dados[1]), Integer.parseInt(dados[2]), Integer.parseInt(dados[3]),Double.parseDouble(dados[4]), Boolean.parseBoolean(dados[5]));
+
+        }
+    } catch (SQLException err) {
+        JOptionPane.showMessageDialog(null, "Erro ao buscar quarto!" + err.getMessage());
+    } finally {
+        // Feche o ResultSet fora do loop
+        try {
+            if (todos != null) {
+                todos.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    this.quarto = obj;  // Atribua o objeto Endereco fora do loop
 }
     /**
      * Creates new form Cadastro
@@ -377,6 +399,17 @@ public class Cadastro extends javax.swing.JFrame {
             hpds.setSexo(jList2.getSelectedValue());
             
             user.incluirHospede(hpds);
+            
+            Reserva check_in = new Reserva();
+            check_in.setId_hospede(hpds);
+            check_in.setId_quarto(quarto);
+            check_in.setCheck_in(true);
+            check_in.setCheck_out(false);
+            check_in.setStatus_pagamento("pago");
+            check_in.setEstado("Confirmada");
+          
+            user.incluirReserva(check_in);
+            
             Reservar res = new Reservar();
             res.setVisible(true);
             this.setVisible(false);

@@ -44,17 +44,17 @@ public class UsuarioDao extends ConectarDao {
     }
     
     public void incluirReserva(Reserva obj){
-        sql = "INSERT INTO RESERVA VALUES (? , ?, ?, ?, ? ,?)";
+        sql = "INSERT INTO RESERVA (id_reserva,id_hospede,id_quarto,check_in,check_out, status_pagamento,estado )VALUES (? , ?, ?, ?, ? ,?)";
         
         try{
             ps = mycon.prepareStatement(sql);
             ps.setInt(1, obj.getId_reserva());
             ps.setInt(2, obj.getId_hospede().getCPF());
             ps.setInt(3, obj.getId_quarto().getId_quarto());
-            ps.setString(4, obj.getCheck_in());
-            ps.setString(5, obj.getCheck_out());
-            ps.setString(6, obj.getStatus_pagamento().getDescricao());
-            ps.setString(7, obj.getEstado().getDescricao());
+            ps.setBoolean(4, obj.getCheck_in());
+            ps.setBoolean(5, obj.getCheck_out());
+            ps.setString(6, obj.getStatus_pagamento());
+            ps.setString(7, obj.getEstado());
             ps.execute();
             JOptionPane.showMessageDialog(null, "Reserva feita com Sucesso!");
             
@@ -138,6 +138,20 @@ public class UsuarioDao extends ConectarDao {
         }
         catch (SQLException err){
             JOptionPane.showMessageDialog(null, "Erro ao buscar Quarto!" + err.getMessage());
+            return null;
+        }
+            
+    }
+    public ResultSet buscarQuartoPorId(int id){
+        sql = "Select * from Quartos where id_quarto in (?)";
+        
+        try{
+            ps = mycon.prepareStatement(sql);
+            ps.setInt(1, id);
+            return ps.executeQuery();
+        }
+        catch (SQLException err){
+            JOptionPane.showMessageDialog(null, "Erro ao buscar '!" + err.getMessage());
             return null;
         }
             

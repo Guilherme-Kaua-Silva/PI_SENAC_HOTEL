@@ -4,10 +4,10 @@ public class Reserva{
     private int id_reserva;
     private Hospedes id_hospede;
     private Quartos id_quarto;
-    private String check_in;
-    private String check_out;
-    private StatusPagamento status_pagamento;
-    private Estado estado;
+    private boolean check_in;
+    private boolean check_out;
+    private String status_pagamento;
+    private String estado;
     public int getId_reserva() {
         return id_reserva;
     }
@@ -26,28 +26,28 @@ public class Reserva{
     public void setId_quarto(Quartos id_quarto) {
         this.id_quarto = id_quarto;
     }
-    public String getCheck_in() {
+    public boolean getCheck_in() {
         return check_in;
     }
-    public void setCheck_in(String check_in) {
+    public void setCheck_in(boolean check_in) {
         this.check_in = check_in;
     }
-    public String getCheck_out() {
+    public boolean getCheck_out() {
         return check_out;
     }
-    public void setCheck_out(String check_out) {
+    public void setCheck_out(boolean check_out) {
         this.check_out = check_out;
     }
-    public StatusPagamento getStatus_pagamento() {
+    public String getStatus_pagamento() {
         return status_pagamento;
     }
-    public void setStatus_pagamento(StatusPagamento status_pagamento) {
+    public void setStatus_pagamento(String status_pagamento) {
         this.status_pagamento = status_pagamento;
     }
-    public Estado getEstado() {
+    public String getEstado() {
         return estado;
     }
-    public void setEstado(Estado estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }   
 }

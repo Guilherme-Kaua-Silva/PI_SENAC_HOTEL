@@ -73,4 +73,12 @@ public class Quartos {
     public void setDisponibilidade(boolean disponibilidade) {
         this.disponibilidade = disponibilidade;
     }
+    public void addQuarto(boolean pCozinha, boolean pBanheiro, int pId_quarto,int pCapacidade,double pPreco_por_noite,boolean pDisponibilidade){
+        this.setBanheiro(pBanheiro);
+        this.setCozinha(pCozinha);
+        this.setId_quarto(pId_quarto);
+        this.setCapacidade(pCapacidade);
+        this.setPreco_por_noite(pPreco_por_noite);
+        this.setDisponibilidade(    pDisponibilidade);
+    } 
 }
