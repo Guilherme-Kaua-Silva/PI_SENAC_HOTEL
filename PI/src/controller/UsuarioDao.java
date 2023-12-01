@@ -49,6 +49,7 @@ public class UsuarioDao extends ConectarDao {
             ps.setString(6, obj.getStatus_pagamento());
             ps.setString(7, obj.getEstado());
             ps.execute();
+            ps.close();
             JOptionPane.showMessageDialog(null, "Reserva feita com Sucesso!");
 
         } catch (SQLException err) {
@@ -71,6 +72,7 @@ public class UsuarioDao extends ConectarDao {
             ps.setString(8, obj.getTelefone());
             ps.setInt(9, obj.getId_endereco().getId());
             ps.execute();
+            ps.close();
             JOptionPane.showMessageDialog(null, "Cadastro feito com Sucesso!");
 
         } catch (SQLException err) {
@@ -102,12 +104,12 @@ public class UsuarioDao extends ConectarDao {
             return null;
         }
     }
-    public ResultSet buscarHospede(int cpf) {
+    public ResultSet buscarHospede(String cpf) {
         sql = "SELECT * FROM ENDERECO WHERE CEP in (?)";
 
         try {
             ps = mycon.prepareStatement(sql);
-            ps.setInt(1, cpf);
+            ps.setString(1, cpf);
             return ps.executeQuery();
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, "Erro ao buscar Endereco!" + err.getMessage());
@@ -123,6 +125,7 @@ public class UsuarioDao extends ConectarDao {
             ps.setString(2, obj.getCidade());
             ps.setString(3, obj.getBairro());
             ps.execute();
+            ps.close();
             JOptionPane.showMessageDialog(null, "Endereco incluido com Sucesso!");
 
         } catch (SQLException err) {

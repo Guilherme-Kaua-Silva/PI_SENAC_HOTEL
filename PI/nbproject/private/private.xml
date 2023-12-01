@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/model/Sexo.java</file>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/model/Hospedes.java</file>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/view/Login.java</file>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/view/Cadastro.java</file>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/model/Endereco.java</file>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/controller/ConectarDao.java</file>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/controller/UsuarioDao.java</file>
-            <file>file:/C:/Users/wilso/OneDrive/Documentos/GitHub/PI_SENAC_HOTEL/PI/src/view/IncluirEndereco.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHub/PI/PI_SENAC_HOTEL/PI/src/view/Reservar.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHub/PI/PI_SENAC_HOTEL/PI/src/controller/UsuarioDao.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHub/PI/PI_SENAC_HOTEL/PI/src/view/Cadastro.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHub/PI/PI_SENAC_HOTEL/PI/src/view/CadastroQuarto.java</file>
+            <file>file:/C:/Users/Cliente/Documents/GitHub/PI/PI_SENAC_HOTEL/PI/src/view/IncluirEndereco.java</file>
         </group>
     </open-files>
 </project-private>
